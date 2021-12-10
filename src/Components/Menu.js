@@ -1,7 +1,6 @@
 import React from "react";
 import { Component } from "react";
 import Cookies from "universal-cookie/es6";
-import { NavLink } from "react-router-dom";
 
 const cookies = new Cookies();
 

@@ -1,9 +1,7 @@
 import React from "react";
 import { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import Cookies from "universal-cookie/es6";
-import { NavLink } from "react-router-dom";
 import Papa from 'papaparse';
 
 const cookies = new Cookies();

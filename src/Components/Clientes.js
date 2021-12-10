@@ -3,8 +3,7 @@ import { Component } from "react";
 import axios from "axios";
 import swal from "sweetalert";
 import Cookies from "universal-cookie/es6";
-import { NavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
+
 
 const cookies = new Cookies();
 
