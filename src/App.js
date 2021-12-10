@@ -3,16 +3,26 @@ import './App.css';
 import React from "react";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import AgregarProducto from "./Components/AgregarProducto";
+import EditarProducto from './Components/EditarProducto';
 import AgregarProveedor from "./Components/AgregarProveedor";
+import EditarProveedor from './Components/EditarProveedor';
+import AgregarUsuario from './Components/AgregarUsuario';
+import EditarUsuario from './Components/EditarUsuario';
+import AgregarCliente from './Components/AgregarCliente';
+import EditarCliente from './Components/EditarCliente';
+
 
 import Clientes from "./Components/Clientes";
 import Productos from "./Components/Productos";
 import Proveedores from "./Components/Proveedores";
 import Login from "./Components/Login";
 import Menu from './Components/Menu';
-import AgregarCliente from './Components/AgregarCliente';
 import Usuarios from './Components/Usuarios';
-import AgregarUsuario from './Components/AgregarUsuario';
+import Ventas from './Components/Ventas';
+import ReporteClientes from './Components/ReporteClientes';
+import ReporteVentas from './Components/ReporteVentas';
+
+
 
 
 function App() {
@@ -31,9 +41,16 @@ function App() {
           <Route path = "/clientes" element = {<Clientes />} />
           <Route path = "/usuarios" element = {<Usuarios />} />
           <Route path = "/agregarProducto" element = {<AgregarProducto />} />
+          <Route path = "/editarProducto/:id" element = {<EditarProducto />} />
+          <Route path = "/editarProveedor/:id" element = {<EditarProveedor />} />
+          <Route path = "/editarCliente/:id" element = {<EditarCliente />} />
+          <Route path = "/editarUsuario/:id" element = {<EditarUsuario />} />
           <Route path = "/agregarProveedor" element = {<AgregarProveedor />} />  
           <Route path = "/agregarCliente" element = {<AgregarCliente />} />  
-          <Route path = "/agregarUsuario" element = {<AgregarUsuario />} /> 
+          <Route path = "/agregarUsuario" element = {<AgregarUsuario />} />
+          <Route path = "/ventas" element = {<Ventas />} /> 
+          <Route path = "/ReporteClientes" element = {<ReporteClientes />} /> 
+          <Route path = "/ReporteVentas" element = {<ReporteVentas />} />  
         </Routes>
       </BrowserRouter>
       </div>

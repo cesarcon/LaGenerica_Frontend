@@ -59,33 +59,37 @@ class Proveedores extends Component{
     render() {
         return(
             <div>
-            <header className="App-header">
-                <h1> Cadena de Tiendas la Generica - Sucursal {cookies.get('ciudad')}</h1>
-                <br />
-             <nav>
-                  <ul>
-                      <li>
-                          <NavLink to = "/productos" activeClassName = "active" >Productos</NavLink>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Proveedores</li>
+                            <li class="nav-item active">
+                                <a class="nav-link Productos" href="/productos">Productos <span class="sr-only"></span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link Proveedores" href="/proveedores">Proveedores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link Clientes" href="/clientes">Clientes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link Usuarios" href="/usuarios">Usuarios</a>
+                            </li>
+                            <li class="nav-item">
+                         <a class="nav-link Usuarios" href="/ventas">Ventas</a>
                       </li>
-                      <li>
-                          <NavLink to = "/proveedores" activeClassName = "active" >Proveedores</NavLink>
-                      </li>
-                      <li>
-                          <NavLink to = "/clientes" activeClassName = "active" >Clientes</NavLink>
-                      </li>
-                      <li>
-                      <NavLink to = "/usuarios" activeClassName = "active" >Usuarios</NavLink>
-                      </li>
-
-                  </ul>
-             </nav>
-             <br />
-                <button onClick={()=>this.cerrarSesion()}>Cerrar Sesion</button>
-             </header>
-             <h1> Proveedores</h1>
-             <Link to = "/agregarProveedor">Agregar Producto</Link>
-                <table>
-                    <thead>
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0" class="btn-group" role="group">
+                            <a class="btn btn-outline-success" href="/agregarProveedor" role="button"> Agregar Proveedor</a>
+                            <button class="btn btn-outline-danger my-2 my-sm-0" onClick={() => this.cerrarSesion()}>Cerrar Sesión</button>
+                        </form>
+                    </div>
+                </nav>
+                    <table className="table table-hover table-sm">
+                    <thead class="table-dark">
                         <tr>
                             <th>NIT del proveedor</th>
                             <th>Nombre del proveedor</th>
@@ -96,26 +100,26 @@ class Proveedores extends Component{
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            this.state.proveedores.map(
-                            proveedor =>
-                            <tr key = {proveedor.nitproveedor}>
-                                             <td> {proveedor.nitproveedor}</td>
-                                             <td> {proveedor.nombreProveedor}</td>
-                                             <td> {proveedor.direccionProveedor}</td>
-                                             <td> {proveedor.telefonoProveedor}</td>
-                                             <td> {proveedor.ciudadProveedor}</td>
-                                             <td>
-                                                 <button> Editar</button>
-                                                 <button onClick = {()=>{ this.borrarProveedor(proveedor.nitproveedor)}}> Eliminar</button>
-                                             </td>
-                                         </tr> 
-                                )
-                            }
+                        {this.state.proveedores.map(
+                            proveedor => <tr key={proveedor.nitproveedor}>
+                                <td> {proveedor.nitproveedor}</td>
+                                <td> {proveedor.nombreProveedor}</td>
+                                <td> {proveedor.direccionProveedor}</td>
+                                <td> {proveedor.telefonoProveedor}</td>
+                                <td> {proveedor.ciudadProveedor}</td>
+                                <td>
+                                <div class="btn-group" role="group" >
+                                    <a class="btn btn-outline-info" href={"/EditarProveedor/" + proveedor.nitproveedor}
+                                          role="button"  > Editar</a>
+                                    <button type="button" class="btn btn-outline-danger" onClick={() => { this.borrarProveedor(proveedor.nitproveedor); } }> Eliminar</button>
+                                </div>
+                                </td>
+                            </tr>
+                        )}
 
                     </tbody>
                 </table>
-               </div>      
+            </div>      
         );
     }
 }

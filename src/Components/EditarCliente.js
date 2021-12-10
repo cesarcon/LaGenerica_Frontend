@@ -7,7 +7,10 @@ import { NavLink } from "react-router-dom";
 
 const cookies = new Cookies();
 
-class AgregarCliente extends Component{
+class EditarCliente extends Component{
+    path = null;
+    url = [];
+    clienteId = null;
     cedulaCliente = React.createRef();
     direccionCliente = React.createRef();
     emailCliente = React.createRef();
@@ -15,7 +18,7 @@ class AgregarCliente extends Component{
     telefonoCliente = React.createRef();
  
     state = {
-        clientes:[],
+        cliente:[],
         status:null
     }
 
@@ -30,10 +33,28 @@ class AgregarCliente extends Component{
             window.location.href="./";
         }
     }
+    componentWillMount(){
+        this.path = window.location.pathname;
+        this.url = this.path.split("/");
+        console.log(this.url);
+        this.clienteId = this.url[2];
+        this.getCliente(this.clienteId);
+    }
+
+    getCliente = (id) => {
+        axios.get("http://localhost:8080/cliente/"+id)
+            .then(res=>{
+                this.setState({
+                    cliente:res.data
+                })
+                
+            });
+
+    }
 
     guardarCliente = (e) =>{
         e.preventDefault();
-        var proveedor = {
+        var cliente = {
             cedulaCliente:this.cedulaCliente.current.value,
             direccionCliente:this.direccionCliente.current.value,
             emailCliente:this.emailCliente.current.value,
@@ -41,7 +62,7 @@ class AgregarCliente extends Component{
             telefonoCliente:this.telefonoCliente.current.value,
         }
 
-        axios.post("http://localhost:8080/addCliente", proveedor)
+        axios.put("http://localhost:8080/actualizarCliente", cliente)
            .then(res=>{
                this.setState({
                    status:"success"
@@ -50,6 +71,7 @@ class AgregarCliente extends Component{
     }
 
     render(){
+        console.log(this.state.cliente);
         if(this.state.status === "success"){
             return<Navigate to ="/clientes" />
         }
@@ -62,7 +84,7 @@ class AgregarCliente extends Component{
 
                  <div class="collapse navbar-collapse" id="navbarSupportedContent" >
                  <ul class="navbar-nav mr-auto">
-                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Agregar Productos</li>
+                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Editar Clientes</li>
                       <li class="nav-item active">
                          <a class="nav-link Productos" href="/productos">Productos <span class="sr-only"></span></a>
                       </li>
@@ -90,23 +112,23 @@ class AgregarCliente extends Component{
 
                          <div class="form-row">
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Cédula del Cliente" name = "cedula" ref={this.cedulaCliente}/>
+                                    <input type="text" class="form-control" placeholder="Cédula del Cliente" name = "cedula" ref={this.cedulaCliente} defaultValue={this.state.cliente.cedulaCliente}/>
                                 </div>
                                 <br />
                                 <div class="col">
-                                        <input type="text" class="form-control" placeholder="Nombre del Cliente" name = "nombre" ref={this.nombreCliente}/>
+                                        <input type="text" class="form-control" placeholder="Nombre del Cliente" name = "nombre" ref={this.nombreCliente} defaultValue={this.state.cliente.nombreCliente}/>
                                 </div>
                                 <br />
                                 <div class="col">
-                                     <input type="text" class="form-control" placeholder="Dirección" name = "direccion" ref={this.direccionCliente}/>
+                                     <input type="text" class="form-control" placeholder="Dirección" name = "direccion" ref={this.direccionCliente} defaultValue={this.state.cliente.direccionCliente}/>
                                 </div>
                                 <br />
                                 <div class="col">
-                                    <input type="text" class="form-control" placeholder="Teléfono" name = "telefono" ref={this.telefonoCliente}/>
+                                    <input type="text" class="form-control" placeholder="Teléfono" name = "telefono" ref={this.telefonoCliente} defaultValue={this.state.cliente.telefonoCliente}/>
                                 </div>
                                 <br />
                                 <div class="col">
-                                     <input type="text" class="form-control" placeholder="Correo Electronico" name = "ciudad" ref={this.emailCliente}/>
+                                     <input type="text" class="form-control" placeholder="Correo Electronico" name = "ciudad" ref={this.emailCliente} defaultValue={this.state.cliente.ciudad}/>
                                 </div>
                                 <br />
                                 <div class="btn-group" role="group" >
@@ -122,4 +144,4 @@ class AgregarCliente extends Component{
     }
 }
 
-export default AgregarCliente;
+export default EditarCliente;

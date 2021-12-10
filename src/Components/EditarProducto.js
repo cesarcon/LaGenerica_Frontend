@@ -5,10 +5,14 @@ import axios from "axios";
 import Cookies from "universal-cookie/es6";
 import { NavLink } from "react-router-dom";
 
+
+
 const cookies = new Cookies();
 
-
 class EditarProducto extends Component{
+    path = null;
+    url = [];
+    productoId = null;
     codigo = React.createRef();
     producto = React.createRef();
     nit = React.createRef();
@@ -17,7 +21,7 @@ class EditarProducto extends Component{
     precioVenta = React.createRef();
 
     state = {
-        productos:[],
+        producto:[],
         status:null
     }
 
@@ -33,9 +37,29 @@ class EditarProducto extends Component{
         }
     }
 
+    componentWillMount(){
+        this.path = window.location.pathname;
+        this.url = this.path.split("/");
+        console.log(this.url);
+        this.productoId = this.url[2];
+        this.getProducto(this.productoId);
+    }
+
+    getProducto = (id) => {
+        axios.get("http://localhost:8080/consultarProducto/"+id)
+            .then(res=>{
+                this.setState({
+                    producto:res.data
+                })
+                
+            });
+
+    }
+
     guardarProducto = (e) =>{
         e.preventDefault();
         var producto = {
+            _id:this.productoId,
             codigoProducto:this.codigo.current.value,
             nombreProducto:this.producto.current.value,
             nitproveedor:this.nit.current.value,
@@ -44,7 +68,7 @@ class EditarProducto extends Component{
             precioVenta:this.precioVenta.current.value,
         }
 
-        axios.post("http://localhost:8080/cargarListaProducto", producto)
+        axios.put("http://localhost:8080/Updateproducto" , producto)
            .then(res=>{
                this.setState({
                    status:"success"
@@ -53,63 +77,86 @@ class EditarProducto extends Component{
     }
 
     render(){
+        console.log(this.state.producto);
+
         if(this.state.status === "success"){
             return<Navigate to ="/productos" />
         }
         return(
+            <body>
             <div>
-                <header className="App-header">
-                <h1> Cadena de Tiendas la Generica - Sucursal {cookies.get('ciudad')}</h1>
-                <br />
-             <nav>
-                  <ul>
-                      <li>
-                          <NavLink to = "/productos" activeClassName = "active" >Productos</NavLink>
+
+             <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+              <ul class="navbar-nav mr-auto">
+                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Editar Productos</li>
+                      <li class="nav-item active">
+                         <a class="nav-link Productos" href="/productos">Productos <span class="sr-only"></span></a>
                       </li>
-                      <li>
-                          <NavLink to = "/proveedores" activeClassName = "active" >Proveedores</NavLink>
+                      <li class="nav-item">
+                         <a class="nav-link Proveedores" href="/proveedores">Proveedores</a>
                       </li>
-                      <li>
-                          <NavLink to = "/clientes" activeClassName = "active" >Clientes</NavLink>
+                      <li class="nav-item">
+                         <a class="nav-link Clientes" href="/clientes">Clientes</a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Usuarios" href="/usuarios">Usuarios</a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Usuarios" href="/ventas">Ventas</a>
                       </li>
 
                   </ul>
+
+
+        
+                  <form class="form-inline my-2 my-lg-0">
+                  <button class="btn btn-outline-danger my-2 my-sm-0" onClick={()=>this.cerrarSesion()}>Cerrar Sesión</button>
+                  </form>
+                </div> 
              </nav>
-             <br />
-                <button onClick={()=>this.cerrarSesion()}>Cerrar Sesion</button>
-             </header>
-                <h1>Agregar Producto</h1>
-                <form onSubmit = {this.guardarProducto()}>
-               
-                    <div>
-                        <label> Código del producto</label>
-                        <input type = "text" name = "codigo" ref={this.codigo}/>
+
+
+            <form onSubmit = {this.guardarProducto}>
+                <div class= "container1">
+
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Código del producto" name = "codigo" ref={this.codigo} defaultValue={this.state.producto.codigoProducto}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                                <input type="text" class="form-control" placeholder="Producto" name = "producto" ref={this.producto} defaultValue={this.state.producto.nombreProducto}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                             <input type="text" class="form-control" placeholder="NIT" name = "nit" ref={this.nit} defaultValue={this.state.producto.nitproveedor}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Precio de compra" name = "precioCompra" ref={this.precioCompra} defaultValue={this.state.producto.precioCompra}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                             <input type="text" class="form-control" placeholder="IVA" name = "iva" ref={this.iva} defaultValue={this.state.producto.ivacompra}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                             <input type="text" class="form-control" placeholder="Precio de venta" name = "precioVenta" ref={this.precioVenta} defaultValue={this.state.producto.precioVenta}/>
+                        </div>
+                        <br />
+                        <div class="btn-group" role="group" >
+                                 <input type = "submit" class="btn btn-outline-info"/>
+                         </div>
                     </div>
-                    <div>
-                        <label> Producto</label>
-                        <input type = "text" name = "producto" ref={this.producto}/>
-                    </div>
-                    <div>
-                        <label> NIT</label>
-                        <input type = "text" name = "nit" ref={this.nit}/>
-                    </div>
-                    <div>
-                        <label> Precio de compra</label>
-                        <input type = "text" name = "precioCompra" ref={this.precioCompra}/>
-                    </div>
-                    <div>
-                        <label> IVA</label>
-                        <input type = "text" name = "iva" ref={this.iva}/>
-                    </div>
-                    <div>
-                        <label> Precio de venta</label>
-                        <input type = "text" name = "precioVenta" ref={this.precioVenta}/>
-                    </div>
-                    <div>
-                     <input type = "submit"/>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
+        </body>
         );
     }
 }

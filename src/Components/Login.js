@@ -60,18 +60,21 @@ class Login extends Component {
     
     render(){
         return (
-            <div>
-                <label>Usuario: </label>
+            <div class= "container1">
+                <label><h2>Bienvenido a Tienda La Genérica</h2> </label>
+                <br />
+                <br />
+                <label><h5>Usuario</h5> </label>
                 <br />
                 <input type="text" name="username" onChange={this.handleChange}/>
                 <br />
-                <label>Contraseña: </label>
+                <br />
+                <label><h5>Contraseña</h5> </label>
                 <br />
                 <input type="password" name="password" onChange={this.handleChange}/>
                 <br />
                 <br />
-                <button onClick={()=>this.iniciarSesion()}> Iniciar Sesión </button>
-
+                <button  class="btn btn-secondary" onClick={()=>this.iniciarSesion()}> Iniciar Sesión </button>
             </div>
         )
     }

@@ -7,7 +7,10 @@ import { NavLink } from "react-router-dom";
 
 const cookies = new Cookies();
 
-class AgregarProveedor extends Component{
+class EditarProveedor extends Component{
+    path = null;
+    url = [];
+    proveedorId = null;
     nit = React.createRef();
     ciudad = React.createRef();
     direccion = React.createRef();
@@ -15,7 +18,7 @@ class AgregarProveedor extends Component{
     telefono = React.createRef();
  
     state = {
-        proveedores:[],
+        proveedor:[],
         status:null
     }
 
@@ -30,6 +33,24 @@ class AgregarProveedor extends Component{
             window.location.href="./";
         }
     }
+    componentWillMount(){
+        this.path = window.location.pathname;
+        this.url = this.path.split("/");
+        console.log(this.url);
+        this.proveedorId = this.url[2];
+        this.getProveedor(this.proveedorId);
+    }
+
+    getProveedor = (id) => {
+        axios.get("http://localhost:8080/consultarProveedor/"+id)
+            .then(res=>{
+                this.setState({
+                    proveedor:res.data
+                })
+                
+            });
+
+    }
 
     guardarProveedor = (e) =>{
         e.preventDefault();
@@ -38,10 +59,10 @@ class AgregarProveedor extends Component{
             ciudadProveedor:this.ciudad.current.value,
             direccionProveedor:this.direccion.current.value,
             nombreProveedor:this.nombre.current.value,
-            telefonoProveedor:this.telefono.current.value
+            telefonoProveedor:this.telefono.current.value,
         }
 
-        axios.post("http://localhost:8080/addProveedor", proveedor)
+        axios.put("http://localhost:8080/actualizarProveedor", proveedor)
            .then(res=>{
                this.setState({
                    status:"success"
@@ -62,7 +83,7 @@ class AgregarProveedor extends Component{
 
               <div class="collapse navbar-collapse" id="navbarSupportedContent" >
                  <ul class="navbar-nav mr-auto">
-                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Agregar Proveedores</li>
+                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Editar Proveedores</li>
                       <li class="nav-item active">
                          <a class="nav-link Productos" href="/productos">Productos <span class="sr-only"></span></a>
                       </li>
@@ -90,23 +111,23 @@ class AgregarProveedor extends Component{
 
                         <div class="form-row">
                             <div class="col">
-                                <input type="text" required="required" class="form-control" placeholder="NIT del proveedor" name = "nit" ref={this.nit}/>
+                                <input type="text" class="form-control" placeholder="NIT del proveedor" name = "nit" ref={this.nit} defaultValue={this.state.proveedor.nitproveedor}/>
                             </div>
                             <br />
                             <div class="col">
-                                    <input type="text" required="required" class="form-control" placeholder="Nombre del proveedor" name = "nombre" ref={this.nombre}/>
+                                    <input type="text" class="form-control" placeholder="Nombre del proveedor" name = "nombre" ref={this.nombre} defaultValue={this.state.proveedor.nombreProveedor}/>
                             </div>
                             <br />
                             <div class="col">
-                                 <input type="text" required="required" class="form-control" placeholder="Dirección" name = "direccion" ref={this.direccion}/>
+                                 <input type="text" class="form-control" placeholder="Dirección" name = "direccion" ref={this.direccion} defaultValue={this.state.proveedor.direccionProveedor}/>
                             </div>
                             <br />
                             <div class="col">
-                                <input type="text" required="required" class="form-control" placeholder="Teléfono" name = "telefono" ref={this.telefono}/>
+                                <input type="text" class="form-control" placeholder="Teléfono" name = "telefono" ref={this.telefono} defaultValue={this.state.proveedor.telefonoProveedor}/>
                             </div>
                             <br />
                             <div class="col">
-                                 <input type="text" required="required" class="form-control" placeholder="Ciudad" name = "ciudad" ref={this.ciudad}/>
+                                 <input type="text" class="form-control" placeholder="Ciudad" name = "ciudad" ref={this.ciudad} defaultValue={this.state.proveedor.ciudadProveedor}/>
                             </div>
                             <br />
                             <div class="btn-group" role="group" >
@@ -120,4 +141,4 @@ class AgregarProveedor extends Component{
     }
 }
 
-export default AgregarProveedor;
+export default EditarProveedor;

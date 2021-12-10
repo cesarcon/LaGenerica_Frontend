@@ -57,61 +57,73 @@ class AgregarProducto extends Component{
         }
         return(
             <div>
-                <header className="App-header">
-                <h1> Cadena de Tiendas la Generica - Sucursal {cookies.get('ciudad')}</h1>
-                <br />
-             <nav>
-                  <ul>
-                      <li>
-                          <NavLink to = "/productos" activeClassName = "active" >Productos</NavLink>
-                      </li>
-                      <li>
-                          <NavLink to = "/proveedores" activeClassName = "active" >Proveedores</NavLink>
-                      </li>
-                      <li>
-                          <NavLink to = "/clientes" activeClassName = "active" >Clientes</NavLink>
-                      </li>
-                      <li>
-                      <NavLink to = "/usuarios" activeClassName = "active" >Usuarios</NavLink>
-                      </li>
 
+             <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+              <ul class="navbar-nav mr-auto">
+                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Agregar Productos</li>
+                      <li class="nav-item active">
+                         <a class="nav-link Productos" href="/productos">Productos <span class="sr-only"></span></a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Proveedores" href="/proveedores">Proveedores</a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Clientes" href="/clientes">Clientes</a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Usuarios" href="/usuarios">Usuarios</a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Usuarios" href="/ventas">Ventas</a>
+                      </li>
                   </ul>
+                  <form class="form-inline my-2 my-lg-0">
+                  <button class="btn btn-outline-danger my-2 my-sm-0" onClick={()=>this.cerrarSesion()}>Cerrar Sesión</button>
+                  </form>
+                </div> 
              </nav>
-             <br />
-                <button onClick={()=>this.cerrarSesion()}>Cerrar Sesion</button>
-             </header>
-                <h1>Agregar Producto</h1>
-                <form onSubmit = {this.guardarProducto}>
-               
-                    <div>
-                        <label> Código del producto</label>
-                        <input type = "text" name = "codigo" ref={this.codigo}/>
+
+
+            <form onSubmit = {this.guardarProducto}>
+                <div class= "container1">
+
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" required="required" class="form-control" placeholder="Código del producto" name = "codigo" ref={this.codigo}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                                <input type="text" required="required" class="form-control" placeholder="Producto" name = "producto" ref={this.producto}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                             <input type="text" required="required" class="form-control" placeholder="NIT" name = "nit" ref={this.nit}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                            <input type="text" required="required" class="form-control" placeholder="Precio de compra" name = "precioCompra" ref={this.precioCompra}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                             <input type="text" required="required" class="form-control" placeholder="IVA" name = "iva" ref={this.iva}/>
+                        </div>
+                        <br />
+                        <div class="col">
+                             <input type="text" required="required" class="form-control" placeholder="Precio de venta" name = "precioVenta" ref={this.precioVenta}/>
+                        </div>
+                        <br />
+                        <div class="btn-group" role="group" >
+                                 <input type = "submit" class="btn btn-outline-info"/>
+                         </div>
                     </div>
-                    <div>
-                        <label> Producto</label>
-                        <input type = "text" name = "producto" ref={this.producto}/>
-                    </div>
-                    <div>
-                        <label> NIT</label>
-                        <input type = "text" name = "nit" ref={this.nit}/>
-                    </div>
-                    <div>
-                        <label> Precio de compra</label>
-                        <input type = "text" name = "precioCompra" ref={this.precioCompra}/>
-                    </div>
-                    <div>
-                        <label> IVA</label>
-                        <input type = "text" name = "iva" ref={this.iva}/>
-                    </div>
-                    <div>
-                        <label> Precio de venta</label>
-                        <input type = "text" name = "precioVenta" ref={this.precioVenta}/>
-                    </div>
-                    <div>
-                     <input type = "submit"/>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
         );
     }
 }

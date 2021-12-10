@@ -22,32 +22,39 @@ class Menu extends Component {
     render() {
         return(
             <div>
-            <header className="App-header">
-                <h1> Cadena de Tiendas la Generica - Sucursal {cookies.get('ciudad')}</h1>
-                <br />
-             <nav>
-                  <ul>
-                      <li>
-                          <NavLink to = "/productos" activeClassName = "active" >Productos</NavLink>
-                      </li>
-                      <li>
-                          <NavLink to = "/proveedores" activeClassName = "active" >Proveedores</NavLink>
-                      </li>
-                      <li>
-                          <NavLink to = "/clientes" activeClassName = "active" >Clientes</NavLink>
-                      </li>
-                      <li>
-                      <NavLink to = "/usuarios" activeClassName = "active" >Usuarios</NavLink>
-                      </li>
 
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                     <span class="navbar-toggler-icon"></span>
+                 </button>
+
+                 <div class="collapse navbar-collapse" id="navbarSupportedContent" >
+                 <ul class="navbar-nav mr-auto">
+                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Menú</li>
+                      <li class="nav-item active">
+                         <a class="nav-link Productos" href="/productos">Productos <span class="sr-only"></span></a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Proveedores" href="/proveedores">Proveedores</a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Clientes" href="/clientes">Clientes</a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Usuarios" href="/usuarios">Usuarios</a>
+                      </li>
+                      <li class="nav-item">
+                         <a class="nav-link Usuarios" href="/ventas">Ventas</a>
+                      </li>
                   </ul>
-             </nav>
-             <br />
-                <button onClick={()=>this.cerrarSesion()}>Cerrar Sesion</button>
-             </header>
-             
+                  <form class="form-inline my-2 my-lg-0">
+                  <button class="btn btn-outline-danger my-2 my-sm-0" onClick={()=>this.cerrarSesion()}>Cerrar Sesión</button>
+                  </form>
+                  </div> 
+                </nav>
+
              <h1> Menú Principal</h1>
-             </div>
+            </div>
              )
              }
 

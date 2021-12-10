@@ -8,7 +8,10 @@ import md5 from "md5";
 
 const cookies = new Cookies();
 
-class AgregarUsuario extends Component{
+class EditarUsuario extends Component{
+    path = null;
+    url = [];
+    usuarioId = null;
     cedula = React.createRef();
     correo = React.createRef();
     nombre = React.createRef();
@@ -17,7 +20,7 @@ class AgregarUsuario extends Component{
     ciudad = React.createRef();
 
     state = {
-        usuarios:[],
+        usuario:[],
         status:null
     }
 
@@ -32,6 +35,24 @@ class AgregarUsuario extends Component{
             window.location.href="./";
         }
     }
+    componentWillMount(){
+        this.path = window.location.pathname;
+        this.url = this.path.split("/");
+        console.log(this.url);
+        this.usuarioId = this.url[2];
+        this.getUsuario(this.usuarioId);
+    }
+
+    getUsuario = (id) => {
+        axios.get("http://localhost:8080/consultarUsuario/"+id)
+            .then(res=>{
+                this.setState({
+                    usuario:res.data
+                })
+                
+            });
+
+    }
 
     guardarUsuario = (e) =>{
         e.preventDefault();
@@ -44,7 +65,7 @@ class AgregarUsuario extends Component{
             ciudad:this.ciudad.current.value,
         }
 
-        axios.post("http://localhost:8080/addUsuario", usuario)
+        axios.put("http://localhost:8080/actualizarUsuario", usuario)
            .then(res=>{
                this.setState({
                    status:"success"
@@ -66,7 +87,7 @@ class AgregarUsuario extends Component{
 
                  <div class="collapse navbar-collapse" id="navbarSupportedContent" >
                  <ul class="navbar-nav mr-auto">
-                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Agregar Usuarios</li>
+                      <li class="navbar-brand">Tiendas la Genérica - Sucursal {cookies.get('ciudad')} | Editar Usuarios</li>
                       <li class="nav-item active">
                          <a class="nav-link Productos" href="/productos">Productos <span class="sr-only"></span></a>
                       </li>
@@ -95,27 +116,27 @@ class AgregarUsuario extends Component{
              
                          <div class="form-row">
                              <div class="col">
-                                 <input type="text" class="form-control" placeholder="Cédula del Cliente" name = "cedula" ref={this.cedula}/>
+                                 <input type="text" class="form-control" placeholder="Cédula del Cliente" name = "cedula" ref={this.cedula} defaultValue={this.state.usuario.cedulaUsuario}/>
                              </div>
                              <br />
                              <div class="col">
-                                     <input type="text" class="form-control" placeholder="E-mail" name = "correo" ref={this.correo}/>
+                                     <input type="text" class="form-control" placeholder="E-mail" name = "correo" ref={this.correo} defaultValue={this.state.usuario.emailUsuario}/>
                              </div>
                              <br />
                              <div class="col">
-                                  <input type="text" class="form-control" placeholder="Nombre" name = "nombre" ref={this.nombre}/>
+                                  <input type="text" class="form-control" placeholder="Nombre" name = "nombre" ref={this.nombre} defaultValue={this.state.usuario.nombreUsuario}/>
                              </div>
                              <br />
                              <div class="col">
-                                 <input type="text" class="form-control" placeholder="Contraseña" type = "password" name = "clave" ref={this.clave}/>
+                                 <input type="text" class="form-control" placeholder="Contraseña" type = "password" name = "clave" ref={this.clave} defaultValue={this.state.usuario.password}/>
                              </div>
                              <br />
                              <div class="col">
-                                  <input type="text" class="form-control" placeholder="Usuario" name = "usuario" ref={this.usuario}/>
+                                  <input type="text" class="form-control" placeholder="Usuario" name = "usuario" ref={this.usuario} defaultValue={this.state.usuario.usuario}/>
                              </div>
                              <br />
                              <div>
-                             <select class="form-control "  name = "ciudad" ref={this.ciudad}>
+                             <select class="form-control "  name = "ciudad" ref={this.ciudad}  defaultValue={this.state.usuario.ciudad}>
                                  <option> Seleccione la ciudad</option>
                                  <option>Bogota</option> 
                                  <option>Cali</option>
@@ -135,4 +156,4 @@ class AgregarUsuario extends Component{
     }
 }
 
-export default AgregarUsuario;
+export default EditarUsuario;
